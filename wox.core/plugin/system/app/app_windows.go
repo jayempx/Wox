@@ -223,7 +223,12 @@ func (a *WindowsRetriever) parseShortcut(ctx context.Context, appPath string) (a
 
 	icon := appIcon
 	iconSourcePath := appPath
-	if targetPath != "" && strings.HasSuffix(strings.ToLower(targetPath), ".exe") {
+	// Resolve the shortcut artwork first; its icon may differ from the launch target.
+	iconLocation, _ := readShortcutPropertyUncached(ctx, appPath, "IconLocation")
+	if shortcutIcon, source, iconErr := fileicon.GetShortcutIcon(ctx, appPath, targetPath, iconLocation); iconErr == nil {
+		icon = common.NewWoxImageAbsolutePath(shortcutIcon)
+		iconSourcePath = source
+	} else if targetPath != "" && strings.HasSuffix(strings.ToLower(targetPath), ".exe") {
 		iconSourcePath = targetPath
 		if iconPath, iconErr := fileicon.GetFileIconByPath(ctx, targetPath); iconErr != nil {
 			util.GetLogger().Error(ctx, fmt.Sprintf("Error getting icon for %s, use default icon: %s", targetPath, iconErr.Error()))

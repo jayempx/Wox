@@ -111,7 +111,8 @@ type appCacheFile struct {
 }
 
 // Bump this when cached appInfo fields or preprocessed icon semantics change.
-const appCacheVersion = 16
+// Reindex persisted fallback icons after the Windows icon resolver upgrade.
+const appCacheVersion = 17
 
 const (
 	appCommandLaunchpad = "launchpad"

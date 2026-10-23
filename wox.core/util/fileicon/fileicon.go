@@ -9,7 +9,8 @@ import (
 	"wox/util"
 )
 
-const fileIconPathCachePrefix = "fileicon_v5_"
+// Version 6 rebuilds artwork using Shell fallback and legacy alpha-mask recovery.
+const fileIconPathCachePrefix = "fileicon_v6_"
 
 // GetFileIconByPath returns the default list-size cached OS icon path for the given path.
 // It first tries to resolve the application/file icon, then falls back to the file-type icon.
